@@ -1,6 +1,6 @@
-# seed-angular-1
+# proof of concept: slim + jwt + angular
 
-Basic project setup with AngularJS 1.x
+#wip
 
 ##### Node Modules
 * jQuery 2.1.4
@@ -27,17 +27,6 @@ gulp
 ```
 
 ## Version History
-
-### 1.3.0
-* add angular
-* remove bower
-
-### 1.2.0
-* add browsersync, plumber, prettify, jshint
-* restructure gulpfile.js
-
-### 1.1.0
-* add version string replacement.
 
 ### 1.0.0
 * initial version.
