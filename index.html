@@ -4,39 +4,41 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Titel - v1.3.0</title>
+    <title>JWT Login Example - v1.0.0</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
 
     <!-- Vendor -->
-    <link rel="stylesheet" href="css/vendor.bundle.min.css?v=1.3.0">
+    <link rel="stylesheet" href="css/vendor.bundle.min.css?v=1.0.0">
 
     <!-- App -->
-    <link rel="stylesheet" href="css/app.bundle.min.css?v=1.3.0">
+    <link rel="stylesheet" href="css/app.bundle.min.css?v=1.0.0">
 </head>
 
-<body ng-app="App" ng-controller="DefaultCtrl">
+<body ng-app="App" ng-controller="DefaultCtrl" layout="column">
 
     <!-- navigation -->
-    <nav>
-        <a ui-sref="home">Home</a>
-        <a ui-sref="about">About</a>
-        <a ui-sref="contact">Contact</a>
-    </nav>
+    <md-toolbar class="md-whiteframe-z2" ng-cloak>
+        <div class="md-toolbar-tools">
+            <md-button ui-sref="login">Login</md-button>
+            <md-button ui-sref="about">About</md-button>
+            <md-button ui-sref="contact">Contact</md-button>
+        </div>
+    </md-toolbar>
 
     <!-- view -->
-    <ui-view name="main"></ui-view>
+    <md-content id="content" ui-view="main" flex layout></md-content>
 
     <!-- Vendor -->
-    <script src="js/vendor.bundle.min.js?v=1.3.0"></script>
+    <script src="js/vendor.bundle.min.js?v=1.0.0"></script>
 
     <!-- App -->
-    <script src="js/app.bundle.min.js?v=1.3.0"></script>
+    <script src="js/app.bundle.min.js?v=1.0.0"></script>
 
     <!-- Templates -->
-    <script src="js/app.templates.min.js?v=1.3.0"></script>
+    <script src="js/app.templates.min.js?v=1.0.0"></script>
 
 </body>
 

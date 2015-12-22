@@ -23,18 +23,24 @@
 
 */
 
-  $app->get('/login', function (Request $request, Response $response) {
+  $app->post('/login', function (Request $request, Response $response) {
   
-    // if credentials == correct
     
-    $tokenId    = base64_encode(mcrypt_create_iv(32));
-    $issuedAt   = time();
-    $notBefore  = $issuedAt + 10;             //Adding 10 seconds
-    $expire     = $notBefore + 60;            // Adding 60 seconds
-    $serverName = "servername"; // Retrieve the server name from config file
+    $parsedBody = $request->getParsedBody();
+
+    $username = $parsedBody["name"];
+    $password = $parsedBody["password"];
     
-    
-    $data = [
+    if ($username == "test" && $password == "test") {
+      
+      // generate a new jwt
+      $tokenId    = base64_encode(mcrypt_create_iv(32));
+      $issuedAt   = time();
+      $notBefore  = $issuedAt + 10;             //Adding 10 seconds
+      $expire     = $notBefore + 60;            // Adding 60 seconds
+      $serverName = "myserver";
+      
+      $data = [
         'iat'  => $issuedAt,         // Issued at: time when the token was generated
         'jti'  => $tokenId,          // Json Token Id: an unique identifier for the token
         'iss'  => $serverName,       // Issuer
@@ -43,27 +49,29 @@
         'data' => [                  // Data related to the signer user
             'userId'   => "1", // userid from the users table
             'userName' => "test" // User name
-        ]
-    ];
+          ]
+      ];
 
-    
-    $secretKey = base64_decode("key");
-    
-    
-    $jwt = JWT::encode(
+      $secretKey = base64_decode("mysecretkey");
+            
+      $jwt = JWT::encode(
         $data,      //Data to be encoded in the JWT
         $secretKey, // The signing key
         'HS512'     // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
         );
     
+      $unencodedArray = ['jwt' => $jwt];
+      
+      $response->getBody()->write(json_encode($unencodedArray));
+      
+    } else {
+      $response = $response->withStatus(401, "Authentication failed");
+    }
     
-     $unencodedArray = ['jwt' => $jwt];
-    
-    $response->getBody()->write(json_encode($unencodedArray));
+      return $response;
 
-    return $response;
   });
-  $app->run();
 
+  $app->run();
 
 ?>

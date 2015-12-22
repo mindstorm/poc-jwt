@@ -1,0 +1,30 @@
+<div flex layout layout-align="center center" ng-cloak>
+
+  <md-card flex="33">
+    <form method="post" name="form" ng-submit="submit()">
+
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Login</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content layout="column">
+
+        <md-input-container>
+          <label>Username</label>
+          <input ng-model="user.name">
+        </md-input-container>
+        <md-input-container>
+          <label>Password</label>
+          <input ng-model="user.password">
+        </md-input-container>
+
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-primary" type="submit">Login</md-button>
+      </md-card-actions>
+
+    </form>
+  </md-card>
+
+</div>
