@@ -9,19 +9,30 @@
 
   $app = new \Slim\App;
 
-/*
+
   $app->add(new \Slim\Middleware\JwtAuthentication([
-      "secret" => "your_example_key",
+      "secret" => base64_decode("mysecretkey"),
+      "path" => "/data"
+    /*,
       "callback" => function ($options) use ($app) {
+        
+        var_dump($options);
+        
           $app->jwt = $options["decoded"];
-      }
+      },
+      "error" => function($request, $response, $arguments) {
+        var_dump($response);
+        
+        return $response;
+      } */
   ]));
-
+  
+/*
   $app->get("/user", function () {
-      print_r($app->jwt);
+      print_r($app->jwt)a
   });
-
 */
+
 
   // LOGIN: check credentials and generate a new JWT
   $app->post('/login', function (Request $request, Response $response) {
@@ -46,7 +57,7 @@
         'jti'  => $tokenId,          // Json Token Id: an unique identifier for the token
         'iss'  => $serverName,       // Issuer
         'nbf'  => $notBefore,        // Not before
-        'exp'  => $expire,           // Expire
+        //'exp'  => $expire,           // Expire
         'data' => [                  // Data related to the signer user
             'userId'   => "1", // userid from the users table
             'userName' => "test" // User name
@@ -69,6 +80,34 @@
       
       return $response->withStatus(401, "Authentication failed");
     }
+  });
+
+
+  // DATA - mixed personal and public data
+  $app->get("/data", function (Request $request, Response $response) {
+    $data = ["apple", "banana"];
+  
+    /*
+    $secretKey = base64_decode("mysecretkey");
+  
+    $jwta = new \Slim\Middleware\JwtAuthentication([
+      "secret" => $secretKey,
+      "path" => "/data"
+    ]);
+    
+    $token = $jwta->fetchToken($request);
+    if ($token) {
+      if ($jwta->decodeToken($token)) {
+        $data[] = "zebra";
+      }
+    }
+    */
+    
+    //echo "<hr>";
+    
+    //var_dump($data);
+    
+    return $response->getBody()->write(json_encode($data));
   });
 
   $app->run();

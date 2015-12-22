@@ -1,1 +1,21 @@
-ABOUT {{ dummy }}
+<div flex layout layout-align="center center" ng-cloak>
+
+
+  <md-card flex="33">
+
+    <md-card-content layout="column">
+
+      <md-list>
+        <md-list-item class="md-3-line" ng-repeat="item in items">
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ item }}</h3>
+          </div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+
+    </md-card-content>
+
+  </md-card>
+
+</div>

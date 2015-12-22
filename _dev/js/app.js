@@ -16,7 +16,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($
       main: {
         templateUrl: "views/login.html",
         controller: "LoginCtrl"
-      },
+      }
     }
   })
 
@@ -25,8 +25,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($
     views: {
       main: {
         templateUrl: "views/about.html",
-        controller: "DefaultCtrl"
-      },
+        controller: "AboutCtrl"
+      }
     }
   })
 
@@ -36,7 +36,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($
       main: {
         templateUrl: "views/contact.html",
         controller: "DefaultCtrl"
-      },
+      }
     }
   });
 
@@ -137,4 +137,17 @@ app.controller("LoginCtrl", ["$scope", "$http", "$auth", function ($scope, $http
     });
   };
 
+}]);
+
+
+/* about controller
+ * ------------------------------------------------ */
+app.controller("AboutCtrl", ["$scope", "$http", "$auth", function ($scope, $http, $auth) {
+  "use strict";
+
+  // get data
+  $http.get("api/data").then(function(response) {
+    $scope.items = response.data;
+  });
+  
 }]);
