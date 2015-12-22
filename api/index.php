@@ -23,14 +23,15 @@
 
 */
 
+  // LOGIN: check credentials and generate a new JWT
   $app->post('/login', function (Request $request, Response $response) {
-  
-    
+      
     $parsedBody = $request->getParsedBody();
 
     $username = $parsedBody["name"];
     $password = $parsedBody["password"];
     
+    // check username & password
     if ($username == "test" && $password == "test") {
       
       // generate a new jwt
@@ -62,14 +63,12 @@
     
       $unencodedArray = ['jwt' => $jwt];
       
-      $response->getBody()->write(json_encode($unencodedArray));
+      return $response->getBody()->write(json_encode($unencodedArray));
       
     } else {
-      $response = $response->withStatus(401, "Authentication failed");
+      
+      return $response->withStatus(401, "Authentication failed");
     }
-    
-      return $response;
-
   });
 
   $app->run();

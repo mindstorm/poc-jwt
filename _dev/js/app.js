@@ -47,10 +47,11 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($
 
 }]);
 
-
+/* HTTP Response Interceptor
+ * ------------------------------------------------ */
 app.factory("httpResponseInterceptor", ["$q", "$injector", function ($q, $injector) {
   "use strict";
-  var httpResponseInterceptor = {
+  return {
     responseError: function (response) {
 
       var mdDialog = $injector.get("$mdDialog");
@@ -65,7 +66,6 @@ app.factory("httpResponseInterceptor", ["$q", "$injector", function ($q, $inject
       return $q.reject(response);
     }
   };
-  return httpResponseInterceptor;
 }]);
 
 
