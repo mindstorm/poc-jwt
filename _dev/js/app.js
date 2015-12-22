@@ -1,7 +1,7 @@
 /*
  * ANGULAR APP
  ****************************************************/
-var app = angular.module("App", ["ui.router", "ngMaterial"]);
+var app = angular.module("App", ["ui.router", "ngMaterial", "satellizer"]);
 
 
 /* ui routes
@@ -47,6 +47,17 @@ app.config(["$stateProvider", "$urlRouterProvider", "$httpProvider", function ($
 
 }]);
 
+
+// satellizer
+app.config(function ($authProvider) {
+  "use strict";
+
+  $authProvider.baseUrl = ".";
+  $authProvider.loginUrl = "api/login";
+
+});
+
+
 /* HTTP Response Interceptor
  * ------------------------------------------------ */
 app.factory("httpResponseInterceptor", ["$q", "$injector", function ($q, $injector) {
@@ -81,8 +92,13 @@ app.controller("DefaultCtrl", ["$scope", function ($scope) {
 
 /* login controller
  * ------------------------------------------------ */
-app.controller("LoginCtrl", ["$scope", "$http", function ($scope, $http) {
+app.controller("LoginCtrl", ["$scope", "$http", "$auth", function ($scope, $http, $auth) {
   "use strict";
+
+  $scope.authenticated = {
+    status: $auth.isAuthenticated(),
+    data: $auth.getPayload()
+  };
 
   $scope.user = {
     name: "test",
@@ -90,8 +106,34 @@ app.controller("LoginCtrl", ["$scope", "$http", function ($scope, $http) {
   };
 
   $scope.submit = function () {
-    $http.post("api/login", $scope.user).then(function (response) {
-      console.log(response);
+    $auth.login($scope.user)
+      .then(function () {
+
+        // re-set data
+        $scope.authenticated = {
+          status: $auth.isAuthenticated(),
+          data: $auth.getPayload()
+        };
+
+      })
+      .catch(function (response) {
+        console.error(response);
+      });
+  };
+
+  $scope.logout = function () {
+    if (!$auth.isAuthenticated()) {
+      return;
+    }
+
+    $auth.logout().then(function () {
+
+      // re-set data
+      $scope.authenticated = {
+        status: $auth.isAuthenticated(),
+        data: $auth.getPayload()
+      };
+
     });
   };
 

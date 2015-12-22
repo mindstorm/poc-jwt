@@ -1,6 +1,6 @@
 <div flex layout layout-align="center center" ng-cloak>
 
-  <md-card flex="33">
+  <md-card flex="33" ng-hide="authenticated.status">
     <form method="post" name="form" ng-submit="submit()">
 
       <md-card-title>
@@ -26,5 +26,12 @@
 
     </form>
   </md-card>
+
+  <div flex="33" ng-show="authenticated.status" layout="column">
+
+    <div>Hello {{ authenticated.data.data.userName }}</div>
+
+    <md-button ng-click="logout()">Logout</md-button>
+  </div>
 
 </div>
