@@ -9,29 +9,33 @@
 
   $app = new \Slim\App;
 
-
-  $app->add(new \Slim\Middleware\JwtAuthentication([
-      "secret" => base64_decode("mysecretkey"),
-      "path" => "/data"
-    /*,
-      "callback" => function ($options) use ($app) {
-        
-        var_dump($options);
-        
-          $app->jwt = $options["decoded"];
-      },
-      "error" => function($request, $response, $arguments) {
-        var_dump($response);
-        
-        return $response;
-      } */
-  ]));
+  // SLIM Middleware for checking if there is a token in the request
+  $app->add(function ($request, $response, $next) use ($app) {
   
-/*
-  $app->get("/user", function () {
-      print_r($app->jwt)a
+    // init
+    $app->jwt = false;
+    
+    // Key
+    $secretKey = base64_decode("mysecretkey");
+  
+    // JWT Auth Object
+    $jwta = new \Slim\Middleware\JwtAuthentication([
+      "secret" => $secretKey,
+      "path" => "/data"
+    ]);
+    
+    // fetch token from request
+    $token = $jwta->fetchToken($request);
+    if ($token) {
+      
+      // decode token
+      if ($decode = $jwta->decodeToken($token)) {
+        $app->jwt = $decode;
+      }
+    }
+        
+    return $next($request, $response);
   });
-*/
 
 
   // LOGIN: check credentials and generate a new JWT
@@ -82,30 +86,13 @@
     }
   });
 
-
   // DATA - mixed personal and public data
-  $app->get("/data", function (Request $request, Response $response) {
+  $app->get("/data", function (Request $request, Response $response) use ($app) {
     $data = ["apple", "banana"];
   
-    /*
-    $secretKey = base64_decode("mysecretkey");
-  
-    $jwta = new \Slim\Middleware\JwtAuthentication([
-      "secret" => $secretKey,
-      "path" => "/data"
-    ]);
-    
-    $token = $jwta->fetchToken($request);
-    if ($token) {
-      if ($jwta->decodeToken($token)) {
-        $data[] = "zebra";
-      }
+    if ($app->jwt) {
+      $data = $app->jwt;
     }
-    */
-    
-    //echo "<hr>";
-    
-    //var_dump($data);
     
     return $response->getBody()->write(json_encode($data));
   });
