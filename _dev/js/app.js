@@ -142,7 +142,7 @@ app.controller("LoginCtrl", ["$scope", "$http", "$auth", function ($scope, $http
 
 /* about controller
  * ------------------------------------------------ */
-app.controller("AboutCtrl", ["$scope", "$http", "$auth", function ($scope, $http, $auth) {
+app.controller("AboutCtrl", ["$scope", "$http", "$auth", function ($scope, $http) {
   "use strict";
 
   // get data
