@@ -1,11 +1,10 @@
-# proof of concept: slim + jwt + angular
-
-#wip
+# proof of concept: slim + jwt + angular + satellizer
 
 ##### Node Modules
 * jQuery 2.1.4
-* normalize-css 3.0.3
 * AngularJS 1.4.8
+* Angular Material 1.0.1
+* Satellizer 0.13.2
 
 ##### Build Stack
 * Gulp
