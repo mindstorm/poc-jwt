@@ -30,6 +30,23 @@ var templateCache = require("gulp-angular-templatecache");
 var pkg = JSON.parse(fs.readFileSync("./package.json"));
 
 
+/* replace tokens
+ * ------------------------------------------------ */
+var replaceTokens = function (match, tokenName) {
+  "use strict";
+
+  var tokenValue = pkg[tokenName];
+
+  if (tokenValue) {
+    return tokenValue;
+  } else {
+    console.warn("No matching token found for %s", tokenName);
+    return "";
+  }
+
+};
+
+
 /* source paths
  * ------------------------------------------------ */
 var srcPaths = {
@@ -96,7 +113,7 @@ gulp.task("replace", function (done) {
   .pipe(plumber())
 
   // replace version string
-  .pipe(replace("%VERSION%", pkg.version))
+  .pipe(replace(/%(.*?)%/g, replaceTokens))
 
   // prettify
   .pipe(prettify({

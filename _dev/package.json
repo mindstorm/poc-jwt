@@ -1,7 +1,7 @@
 {
   "name": "poc-jwt",
   "version": "1.0.0",
-  "description": "angular + slim + jwt example",
+  "description": "proof of concept: slim + jwt + angular + satellizer",
   "main": "index.html",
   "author": {
     "name": "Paul Cervenka"
